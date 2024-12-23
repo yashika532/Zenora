@@ -13,9 +13,9 @@ import {
 
 const Sidebar = () => {
   return (
-    <div className="h-screen p-3 shadow-lg bg-black group">
+    <div className="h-screen p-3 shadow-lg group">
       {/* Sidebar container */}
-      <div className="flex flex-col items-center w-16 group-hover:w-52 h-full transition-all duration-300 overflow-hidden">
+      <div className="flex flex-col bg-black items-center w-16 group-hover:w-52 h-full transition-all duration-300 overflow-hidden">
         {/* Top Part */}
         <div className="w-full">
           {/* Home Option */}
