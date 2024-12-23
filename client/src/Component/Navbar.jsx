@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaSearch, FaBell, FaUserCircle, FaMicrophone } from 'react-icons/fa';
 import { MdVideoCall, MdOutlineCamera } from 'react-icons/md';
-import { IoReorderThreeOutline } from 'react-icons/io5';
 
-function Navbar({setSidebarFunc,sidebar}) {
+function Navbar() {
   const [userPic, setUserPic] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleDropdown = () => {
     setShowDropdown((prev) => !prev);
   };
 
-  const sidebarFunc=()=>{
-    setSidebarFunc(!sidebar);
-  }
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="bg-[#1f1d1d] p-3 shadow-md h-20 max-w-full">
+    <nav
+      className={`${
+        isScrolled ? 'bg-black bg-opacity-70' : 'bg-[#1f1d1d]'
+      } p-3 shadow-md h-20 max-w-full sticky top-0 transition-colors duration-300 z-10`}
+    >
       <div className="container mx-auto flex justify-between items-center">
         {/* Icon and Logo Section */}
         <div className="flex items-center space-x-4">
@@ -71,14 +86,13 @@ function Navbar({setSidebarFunc,sidebar}) {
               />
             )}
 
-{showDropdown && (
-  <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white">
-    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Profile</div>
-    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Login</div>
-    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Logout</div>
-  </div>
-)}
-
+            {showDropdown && (
+              <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white">
+                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Profile</div>
+                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Login</div>
+                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Logout</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
