@@ -1,10 +1,10 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom'
 const HomePage = () => {
   return (
     <div className='flex overflow-x-scroll space-x-4 px-10 py-12 hide-scrollbar'>
       {/* Card with thumbnail, profile, and metadata */}
-      <div className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
+      <Link to = {'/watch/1'} className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
         {/* Thumbnail */}
         <div className="w-full relative box-border h-48 mb-4">
           <img 
@@ -33,9 +33,9 @@ const HomePage = () => {
             <div className="text-gray-400 text-sm">1.2M views • 2 days ago</div>
           </div>
         </div>
-      </div>
+      </Link>
 
-      <div className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
+      <Link to = {'/watch/1'} className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
         {/* Thumbnail */}
         <div className="w-full relative box-border h-48 mb-4">
           <img 
@@ -64,9 +64,10 @@ const HomePage = () => {
             <div className="text-gray-400 text-sm">1.2M views • 2 days ago</div>
           </div>
         </div>
-      </div>
+      </Link>
 
-      <div className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
+
+      <Link to = {'/watch/1'} className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
         {/* Thumbnail */}
         <div className="w-full relative box-border h-48 mb-4">
           <img 
@@ -95,9 +96,9 @@ const HomePage = () => {
             <div className="text-gray-400 text-sm">1.2M views • 2 days ago</div>
           </div>
         </div>
-      </div>
+      </Link>
 
-      <div className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
+      <Link to = {'/watch/1'} className='youtube-video text-white flex-shrink-0 w-96 h-80 bg-gray-800 p-4 rounded-md'>
         {/* Thumbnail */}
         <div className="w-full relative box-border h-48 mb-4">
           <img 
@@ -126,7 +127,8 @@ const HomePage = () => {
             <div className="text-gray-400 text-sm">1.2M views • 2 days ago</div>
           </div>
         </div>
-      </div>
+      </Link>
+
     </div>
   );
 };
