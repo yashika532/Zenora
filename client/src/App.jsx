@@ -4,6 +4,7 @@ import Navbar from './Component/Navbar'
 import Home from './Pages/Home'
 import {Route , Routes} from "react-router-dom" //its useful for single page 
 import Video from './Component/Video'
+import Profile from './Pages/Profile'
 function App() {
 
 
@@ -13,6 +14,7 @@ function App() {
      <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/watch/:id" element={<Video/>}/>
+      <Route path = "/user/:id" element = {<Profile/>}/>
      </Routes>
     </>
   )

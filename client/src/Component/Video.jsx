@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaThumbsUp, FaThumbsDown, FaSearch } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const Video = () => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
@@ -70,13 +70,13 @@ const Video = () => {
             <h2 className="text-xl font-semibold">Exploring the Cosmos</h2>
             <div className="flex items-center justify-between mt-2">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden">
+                <Link to = {'/user/1'} className="w-12 h-12 rounded-full overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1462536943532-57a629f6cc60?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
-                </div>
+                </Link>
                 <div>
                   <h3 className="font-medium">Cosmos Explorer</h3>
                   <p className="text-sm text-gray-400">1.2M subscribers</p>

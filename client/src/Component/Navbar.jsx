@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch, FaBell, FaUserCircle, FaMicrophone } from 'react-icons/fa';
 import { MdVideoCall, MdOutlineCamera } from 'react-icons/md';
+import { Link , useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const [userPic, setUserPic] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const navigate  = useNavigate();
 
-  const toggleDropdown = () => {
-    setShowDropdown((prev) => !prev);
-  };
+  const handleProfile = () =>{
+        navigate('/user/1');
+  }
+
+  const [userPic, setUserPic] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -26,6 +28,8 @@ function Navbar() {
     };
   }, []);
 
+ 
+
   return (
     <nav
       className={`${
@@ -34,12 +38,12 @@ function Navbar() {
     >
       <div className="container mx-auto flex justify-between items-center">
         {/* Icon and Logo Section */}
-        <div className="flex items-center space-x-4">
+        <Link to="/" className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <MdOutlineCamera className="text-blue-500 text-3xl" />
             <h1 className="text-white text-2xl font-bold">Zenora</h1>
           </div>
-        </div>
+        </Link>
 
         {/* Search Bar */}
         <div className="flex items-center space-x-4 w-full ml-[16%]">
@@ -69,31 +73,25 @@ function Navbar() {
             <FaBell size={24} />
           </button>
 
-          {/* User Icon */}
-          <div className="relative">
-            {userPic ? (
-              <img
-                src={userPic}
-                alt="User"
-                className="w-12 h-12 rounded-full cursor-pointer object-cover"
-                onClick={toggleDropdown}
-              />
-            ) : (
-              <FaUserCircle
-                size={32}
-                className="text-gray-300 hover:text-white cursor-pointer"
-                onClick={toggleDropdown}
-              />
-            )}
+          {/* User Icon with Hover Dropdown */}
+          <div className="relative group">
+  <div  className="flex items-center">
+  <img
+  src={userPic}
+  alt="User"
+  className=" ml-5 w-1/2 h-auto rounded-full object-cover border-2 border-gray-500"
+/>
+  </div>
 
-            {showDropdown && (
-              <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white">
-                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Profile</div>
-                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Login</div>
-                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Logout</div>
-              </div>
-            )}
-          </div>
+  {/* Dropdown Menu */}
+  <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={handleProfile}>Profile</div>
+    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Login</div>
+    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Logout</div>
+  </div>
+</div>
+
+
         </div>
       </div>
     </nav>
