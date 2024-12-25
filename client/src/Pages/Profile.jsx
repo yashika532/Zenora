@@ -9,9 +9,9 @@ const Profile = () => {
       <Sidebar />
 
       {/* Main content */}
-      <div className="profile-page flex-1 ml-16 p-4">
+      <div className="profile-page flex-1 ml-2 p-4">
         {/* Profile Header */}
-        <div className="profile-top-section flex items-center mb-12 p-6 rounded-lg bg-gradient-to-r from-[#005c97] to-[#00d4ff] shadow-lg transition-transform duration-500 hover:scale-105">
+        <div className="profile-top-section flex items-center mb-12 p-6  rounded-lg bg-gradient-to-r from-[#005c97] to-[#00d4ff] shadow-lg transition-transform duration-500 hover:scale-105">
           <div className="profile-avatar-img mr-6">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s"
@@ -19,7 +19,7 @@ const Profile = () => {
               className="w-44 h-44 rounded-full border-4 border-white shadow-lg"
             />
           </div>
-          <div className="profile-About text-white">
+          <div className="profile-About ml-8 text-white">
             <h1 className="text-4xl font-extrabold tracking-wide mb-2">Yashika Jain</h1>
             <p className="text-lg italic">Your Channel Description</p>
             <div className="profile-stats mt-4 flex space-x-10">

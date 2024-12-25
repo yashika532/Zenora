@@ -66,9 +66,9 @@ function Navbar() {
 
         {/* Right Section */}
         <div className="flex items-center space-x-6 mr-6">
-          <button className="text-white hover:text-gray-300">
+          <Link to = "/1/upload" className="text-white hover:text-gray-300">
             <MdVideoCall size={40} />
-          </button>
+          </Link>
           <button className="text-white hover:text-gray-300">
             <FaBell size={24} />
           </button>
