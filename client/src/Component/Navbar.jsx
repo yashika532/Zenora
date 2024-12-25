@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch, FaBell, FaUserCircle, FaMicrophone } from 'react-icons/fa';
 import { MdVideoCall, MdOutlineCamera } from 'react-icons/md';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const navigate  = useNavigate();
-
-  const handleProfile = () =>{
-        navigate('/user/1');
-  }
-
   const [userPic, setUserPic] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+
+  const handleProfile = () => {
+    navigate('/user/1');
+  };
+
+  const onclickOfPopUpOption = (button) => {
+    if (button === "login") {
+      setLogin(true); // Set login state to true
+    } else if (button === "logout") {
+      setLogin(false); // Set login state to false
+    }
+  };
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -27,8 +35,6 @@ function Navbar() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
- 
 
   return (
     <nav
@@ -66,7 +72,7 @@ function Navbar() {
 
         {/* Right Section */}
         <div className="flex items-center space-x-6 mr-6">
-          <Link to = "/1/upload" className="text-white hover:text-gray-300">
+          <Link to="/1/upload" className="text-white hover:text-gray-300">
             <MdVideoCall size={40} />
           </Link>
           <button className="text-white hover:text-gray-300">
@@ -75,23 +81,25 @@ function Navbar() {
 
           {/* User Icon with Hover Dropdown */}
           <div className="relative group">
-  <div  className="flex items-center">
-  <img
-  src={userPic}
-  alt="User"
-  className=" ml-5 w-1/2 h-auto rounded-full object-cover border-2 border-gray-500"
-/>
-  </div>
+            <div className="flex items-center">
+              <img
+                src={userPic}
+                alt="User"
+                className="ml-5 h-14 max-w-14 rounded-full object-cover border-2 border-gray-500"
+              />
+            </div>
 
-  {/* Dropdown Menu */}
-  <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
-    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={handleProfile}>Profile</div>
-    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Login</div>
-    <div className="px-4 py-2 cursor-pointer hover:bg-gray-900">Logout</div>
-  </div>
-</div>
-
-
+            {/* Dropdown Menu */}
+            <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+              <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={handleProfile}>Profile</div>
+              {!login && (
+                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("login")}>Login</div>
+              )}
+              {login && (
+                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("logout")}>Logout</div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </nav>

@@ -1,10 +1,10 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 const VideoUpload = () => {
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6">
       {/* Form Card */}
-      <div className="backdrop-blur-lg bg-white/10 border border-white/20 shadow-2xl rounded-2xl p-10 w-full max-w-4xl">
+      <div className="backdrop-blur-lg bg-[#00d4ff]/20 border border-white/40 shadow-2xl rounded-2xl p-10 w-full max-w-4xl">
         <h1 className="text-5xl font-extrabold text-white text-center mb-10 drop-shadow-lg">
           Upload Your Video
         </h1>
@@ -82,7 +82,7 @@ const VideoUpload = () => {
             >
               Select Video
             </label>
-            <p className="text-sm text-gray-200 mt-2">MP4, MOV formats accepted</p>
+            <p className="text-sm text-gray-200 mt-2">MP4, MOV, webm formats accepted</p>
           </div>
 
           {/* Submit Button */}
@@ -95,12 +95,12 @@ const VideoUpload = () => {
             </button>
             
             {/* Home Button with New Style */}
-            <button
+            <Link to = '/'
               type="button"
               className="bg-gradient-to-r from-[#005c97] to-[#00d4ff] hover:from-[#005c97] hover:to-[#00d4ff] text-white font-semibold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition duration-300 ease-in-out"
             >
               Home
-            </button>
+            </Link>
           </div>
         </form>
       </div>
