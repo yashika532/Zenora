@@ -6,6 +6,7 @@ import {Route , Routes} from "react-router-dom" //its useful for single page
 import Video from './Component/Video'
 import Profile from './Pages/Profile'
 import VideoUpload from './Pages/VideoUpload'
+import LoginSignup from './Pages/LoginSignup'
 function App() {
 
 
@@ -17,6 +18,7 @@ function App() {
       <Route path="/watch/:id" element={<Video/>}/>
       <Route path = "/user/:id" element = {<Profile/>}/>
       <Route path = "/:id/upload" element = {<VideoUpload/>}/>
+      <Route path = "/login" element = {<LoginSignup/>}/>
      </Routes>
     </>
   )
