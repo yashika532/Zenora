@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../App.css';
+import {FaUser , FaLock ,FaEnvelope ,FaGoogle ,FaFacebook,FaGithub,FaLinkedin} from "react-icons/fa"
 
 const LoginSignup = () => {
   const [isActive, setIsActive] = useState(false);
@@ -22,24 +23,24 @@ const LoginSignup = () => {
           <h1>Login</h1>
           <div className="input-box">
             <input type="text" placeholder="Username" required />
-            <i className="bx bxs-user"></i>
+            <FaUser className="bx bxs-user"></FaUser>
           </div>
           <div className="input-box">
             <input type="password" placeholder="Password" required />
-            <i className="bx bxs-lock-alt"></i>
+            <FaLock className="bx bxs-lock-alt"></FaLock>
           </div>
           <div className="forgot-link">
             <a href="#">Forgot Password?</a>
           </div>
-          <button type="submit" className="btn">
+          <button type="submit" className="btn  bg-gradient-to-r from-[#005c97] to-[#00d4ff]">
             Login
           </button>
           <p>Or Login with social platforms</p>
           <div className="social-icons">
-            <a href="#" className="bx bxl-google"></a>
-            <a href="#" className="bx bxl-facebook"></a>
-            <a href="#" className="bx bxl-github"></a>
-            <a href="#" className="bx bxl-linkedin"></a>
+            <FaGoogle href="#" className="bx i bxl-google" size={22}></FaGoogle>
+            <FaFacebook href="#" className="bx i bxl-facebook" size={22}></FaFacebook>
+            <FaGithub href="#" className="bx i bxl-github" size={22}></FaGithub>
+            <FaLinkedin href="#" className="bx i bxl-linkedin" size={22}></FaLinkedin>
           </div>
         </form>
       </div>
@@ -50,28 +51,25 @@ const LoginSignup = () => {
           <h1>Register</h1>
           <div className="input-box">
             <input type="text" placeholder="Username" required />
-            <i className="bx bxs-user"></i>
+            <FaUser className="bx bxs-user"></FaUser>
           </div>
           <div className="input-box">
             <input type="email" placeholder="Email" required />
-            <i className="bx bxs-envelope"></i>
+            <FaEnvelope className="bx bxs-envelope"></FaEnvelope>
           </div>
           <div className="input-box">
             <input type="password" placeholder="Password" required />
-            <i className="bx bxs-lock-alt"></i>
+            <FaLock className="bx bxs-lock-alt"></FaLock>
           </div>
-          <div className="forgot-link">
-            <a href="#">Forgot Password?</a>
-          </div>
-          <button type="submit" className="btn">
+          <button type="submit" className="btn  bg-gradient-to-r from-[#005c97] to-[#00d4ff]">
             Register
           </button>
           <p>Or Register with social platforms</p>
           <div className="social-icons">
-            <a href="#" className="bx bxl-google"></a>
-            <a href="#" className="bx bxl-facebook"></a>
-            <a href="#" className="bx bxl-github"></a>
-            <a href="#" className="bx bxl-linkedin"></a>
+            <FaGoogle href="#" className="i bx bxl-google" size={22}></FaGoogle>
+            <FaFacebook href="#" className="i bx bxl-facebook" size={22} ></FaFacebook>
+            <FaGithub href="#" className="i bx bxl-github" size={22}></FaGithub>
+            <FaLinkedin href="#" className="i bx bxl-linkedin" size={22}></FaLinkedin>
           </div>
         </form>
       </div>
@@ -81,7 +79,7 @@ const LoginSignup = () => {
         <div className="toggle-panel toggle-left">
           <h1>Hello welcome!</h1>
           <p>Don't have an account?</p>
-          <button className="btn register-btn" onClick={handleRegisterClick}>
+          <button className="btn register-btn " onClick={handleRegisterClick}>
             Register
           </button>
         </div>
