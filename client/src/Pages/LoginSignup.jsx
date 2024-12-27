@@ -12,7 +12,19 @@ const LoginSignup = () => {
   const handleLoginClick = () => {
     setIsActive(false);
   };
-
+  
+  const [loginField , setLoginField] = useState({"userName":"","password":""}); //these field and handleOnChangeInput parameter should be same
+  const [registerField , setRegisterField] = useState({"userName":"","email":"","password":""});
+  console.log(loginField);
+  console.log(registerField);
+  const handleOnChangeInput = (event,name)=>{
+          setLoginField({
+            ...loginField,[name]:event.target.value
+          }),
+          setRegisterField({
+            ...registerField,[name]:event.target.value
+          })
+  }
   return (
     <div className="big-container">
        
@@ -22,11 +34,11 @@ const LoginSignup = () => {
         <form>
           <h1>Login</h1>
           <div className="input-box">
-            <input type="text" placeholder="Username" required />
+            <input type="text" placeholder="Username" value={loginField.userName} onChange={(e)=>handleOnChangeInput(e,"userName")}required />
             <FaUser className="bx bxs-user"></FaUser>
           </div>
           <div className="input-box">
-            <input type="password" placeholder="Password" required />
+            <input type="password" placeholder="Password" value={loginField.password} onChange={(e)=>handleOnChangeInput(e,"password")} required />
             <FaLock className="bx bxs-lock-alt"></FaLock>
           </div>
           <div className="forgot-link">
@@ -50,15 +62,15 @@ const LoginSignup = () => {
         <form>
           <h1>Register</h1>
           <div className="input-box">
-            <input type="text" placeholder="Username" required />
+            <input type="text" placeholder="Username" value={registerField.userName} onChange={(e)=>handleOnChangeInput(e,"userName")} required />
             <FaUser className="bx bxs-user"></FaUser>
           </div>
           <div className="input-box">
-            <input type="email" placeholder="Email" required />
+            <input type="email" placeholder="Email" value={registerField.email} onChange={(e)=>handleOnChangeInput(e,"email")} required />
             <FaEnvelope className="bx bxs-envelope"></FaEnvelope>
           </div>
           <div className="input-box">
-            <input type="password" placeholder="Password" required />
+            <input type="password" placeholder="Password" value={registerField.password} onChange={(e)=>handleOnChangeInput(e,"password")} required />
             <FaLock className="bx bxs-lock-alt"></FaLock>
           </div>
           <button type="submit" className="btn  bg-gradient-to-r from-[#005c97] to-[#00d4ff]">

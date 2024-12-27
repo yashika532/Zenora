@@ -6,6 +6,8 @@ const Video = () => {
   const [dislikes, setDislikes] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+console.log(comments);
+console.log(commentInput);
 
   const handleLike = () => {
     setLikes(likes + 1);
@@ -21,7 +23,7 @@ const Video = () => {
         ...comments,
         { user: "User", content: commentInput, time: new Date().toLocaleTimeString() },
       ]);
-      setCommentInput(""); // Clear the input field
+      setCommentInput(""); 
     }
   };
 

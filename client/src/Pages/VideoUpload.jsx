@@ -1,6 +1,13 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { Link } from 'react-router-dom';
 const VideoUpload = () => {
+  const [inputField , setInputField] = useState({"title":"","description":"","videoLink":"","thumbnail":"","videoType":""});
+  console.log(inputField);
+  const handleOnChangeInput = (event,name)=>{
+    setInputField({
+      ...inputField,[name]:event.target.value
+    })
+}
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-6">
       {/* Form Card */}
@@ -20,6 +27,7 @@ const VideoUpload = () => {
               id="title"
               className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 outline-none focus:ring-4 focus:ring-[#00d4ff] transition-all"
               placeholder="Enter an engaging title"
+              value={inputField.title} onChange={(e)=>handleOnChangeInput(e,"title")}
             />
           </div>
 
@@ -28,12 +36,12 @@ const VideoUpload = () => {
             <label htmlFor="description" className="block text-xl font-semibold text-white mb-2">
               Description
             </label>
-            <textarea
+            <input
               id="description"
-              rows="5"
               className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder-gray-300 border border-white/30 outline-none focus:ring-4 focus:ring-[#00d4ff] transition-all"
               placeholder="Write a compelling description"
-            ></textarea>
+              value={inputField.description} onChange={(e)=>handleOnChangeInput(e,"description")}
+            ></input>
           </div>
 
           {/* Thumbnail */}
@@ -59,14 +67,15 @@ const VideoUpload = () => {
             <select
               id="category"
               className="w-full px-4 py-3 rounded-lg bg-white/20 text-white placeholder--300 border border-white/30 outline-none focus:ring-4 focus:ring-[#00d4ff] transition-all"
+              value={inputField.videoLink} onChange={(e)=>handleOnChangeInput(e,"videoLink")}
             >
-              <option value="" disabled selected>
+              <option value="" className='' disabled selected>
                 Choose a category
               </option>
-              <option value="music">Music</option>
-              <option value="gaming">Gaming</option>
-              <option value="education">Education</option>
-              <option value="entertainment">Entertainment</option>
+              <option className='bg-gray-500 text-white' value="music">Music</option>
+              <option className='bg-gray-500 text-white' value="gaming">Gaming</option>
+              <option className='bg-gray-500 text-white' value="education">Education</option>
+              <option className='bg-gray-500 text-white' value="entertainment">Entertainment</option>
             </select>
           </div>
 

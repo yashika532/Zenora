@@ -12,12 +12,12 @@ function Navbar() {
   const handleProfile = () => {
     navigate('/user/1');
   };
-
+  
   const onclickOfPopUpOption = (button) => {
     if (button === "login") {
-      setLogin(true); // Set login state to true
+      setLogin(true);
     } else if (button === "logout") {
-      setLogin(false); // Set login state to false
+      setLogin(false);
     }
   };
 
@@ -37,12 +37,12 @@ function Navbar() {
   }, []);
 
   return (
-    <nav
+    <div
       className={`${
         isScrolled ? 'bg-black bg-opacity-70' : 'bg-[#1f1d1d]'
       } p-3 shadow-md h-20 max-w-full sticky top-0 transition-colors duration-300 z-10`}
     >
-      <div className=" mx-auto flex justify-between items-center">
+      <div className="mx-auto flex justify-between items-center">
         {/* Icon and Logo Section */}
         <Link to="/" className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
@@ -78,7 +78,7 @@ function Navbar() {
           <button className="text-white hover:text-gray-300">
             <FaBell size={24} />
           </button>
-
+          {/* {login && <span className="text-white text-sm ">Yashika</span>} */}
           {/* User Icon with Hover Dropdown */}
           <div className="relative group">
             <div className="flex items-center">
@@ -93,16 +93,16 @@ function Navbar() {
             <div className="absolute top-14 -right-9 bg-[#1f1d1ddf] w-32 z-20 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
               <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={handleProfile}>Profile</div>
               {!login && (
-                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("login")}>Login</div>
+                <Link to = '/login' className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("login")}>Login</Link>
               )}
               {login && (
-                <div className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("logout")}>Logout</div>
+                <Link to = '/' className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("logout")}>Logout</Link>
               )}
             </div>
           </div>
         </div>
       </div>
-    </nav>
+    </div>
   );
 }
 
