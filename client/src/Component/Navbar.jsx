@@ -96,7 +96,7 @@ function Navbar() {
                 <Link to = '/login' className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("login")}>Login</Link>
               )}
               {login && (
-                <Link to = '/' className="px-4 py-2 cursor-pointer hover:bg-gray-900" onClick={() => onclickOfPopUpOption("logout")}>Logout</Link>
+                <Link to = '/' className="px-4 py-2 w-full cursor-pointer hover:bg-gray-900 " onClick={() => onclickOfPopUpOption("logout")}>Logout</Link>
               )}
             </div>
           </div>
