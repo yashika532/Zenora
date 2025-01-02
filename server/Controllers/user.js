@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 const signUpUser = async (req, res) => {
   try {
-    const { userName, email, password } = req.body;
+    const { fullName,userName, email, password } = req.body;
 
     // Input validation
     if (!userName || !email || !password) {
@@ -20,11 +20,11 @@ const signUpUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const user = new User({ userName, email, password: hashedPassword });
+    const user = new User({fullName, userName, email, password: hashedPassword });
     await user.save();
 
     // Respond to the client
-    return res.status(200).json({ 
+    return res.status(201).json({ 
       message: 'User registered successfully', 
       success: "yes", 
       data: user 
@@ -36,4 +36,37 @@ const signUpUser = async (req, res) => {
   }
 };
 
-export { signUpUser };
+const loginUser = async (req, res) => {
+  try {
+    const { userName, password } = req.body;
+
+    // Input validation
+    if (!userName || !password) {
+      return res.status(400).json({ error: 'Both username and password are required' });
+    }
+
+    // Find the user by username
+    const user = await User.findOne({ userName });
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid username or password' });
+    }
+
+    // Compare the password with the hashed one
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Invalid username or password' });
+    }
+
+    // Respond to the client with success message
+    return res.status(200).json({
+      message: 'Logged in successfully',
+      success: "true"
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+export { signUpUser, loginUser };
