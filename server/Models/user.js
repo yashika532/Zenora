@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 const userSchema = new mongoose.Schema({
-    // channelName:{
-    //     type:String,
-    //     required:true,
-    // },
+    channelName:{
+        type:String,
+        // required:true,
+    },
     
   userName:{
     type:String,
@@ -37,10 +37,10 @@ const userSchema = new mongoose.Schema({
     //     type:String,
     //     required:true,
     // },
-    // profilePic:{
-    //     type:String,
-    //     required:true,
-    // }
+    profilePic:{
+        type:String,
+        // required:true,
+    }
 },{timestamps:true})
 
-export const User = mongoose.model("User",userSchema)
+export const User = mongoose.model("user",userSchema)

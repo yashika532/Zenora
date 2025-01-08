@@ -1,6 +1,4 @@
-const mongoose = require("mongoose");
-
-
+import mongoose from "mongoose";
 const videoSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -36,4 +34,4 @@ const videoSchema = new mongoose.Schema({
     }
 },{timestamps:true})
 
-module.exports = mongoose.model('video',videoSchema);
+export const Video = mongoose.model('video',videoSchema);

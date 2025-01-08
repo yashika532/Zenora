@@ -1,5 +1,12 @@
 import { User } from '../Models/user.js';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'
+
+const cookieOptions  = {
+  httpOnly:true,
+  secure:false,
+  sameSite:'Lax'
+}
 
 const signUpUser = async (req, res) => {
   try {
@@ -31,7 +38,7 @@ const signUpUser = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -56,11 +63,15 @@ const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid username or password' });
     }
-
+     
+    const token = jwt.sign({userId:user._id},'SecretKey',{expiresIn:'1h'});
+    res.cookie('token',token,cookieOptions);
+    // console.log(token);
     // Respond to the client with success message
     return res.status(200).json({
       message: 'Logged in successfully',
-      success: "true"
+      success: "true",
+      token
     });
 
   } catch (error) {
@@ -69,4 +80,8 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { signUpUser, loginUser };
+const logoutUser = async(req,res)=>{
+  res.clearCookie('token',cookieOptions).json({message: 'Logged out successfully'})
+}
+
+export { signUpUser, loginUser ,logoutUser };

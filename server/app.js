@@ -15,4 +15,6 @@ app.use(cookieParser())
 
 import AuthRoutes from './Routes/user.js'
 app.use('/auth' , AuthRoutes);
+import videoRoutes from './Routes/video.js'
+app.use('/api',videoRoutes);
 export {app}
