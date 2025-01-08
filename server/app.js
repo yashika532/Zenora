@@ -17,4 +17,6 @@ import AuthRoutes from './Routes/user.js'
 app.use('/auth' , AuthRoutes);
 import videoRoutes from './Routes/video.js'
 app.use('/api',videoRoutes);
+import commentRoutes from './Routes/comment.js'
+app.use('/commentApi',commentRoutes);
 export {app}
