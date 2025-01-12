@@ -40,7 +40,7 @@ function Navbar() {
     <div
       className={`${
         isScrolled ? 'bg-black bg-opacity-70' : 'bg-[#1f1d1d]'
-      } p-3 shadow-md h-20 max-w-full sticky top-0 transition-colors duration-300 z-10`}
+      } p-3 shadow-md h-20 max-w-screen sticky top-0 transition-colors duration-300 z-10`}
     >
       <div className="mx-auto flex justify-between items-center">
         {/* Icon and Logo Section */}

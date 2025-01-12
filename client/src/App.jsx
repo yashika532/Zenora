@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import Navbar from './Component/Navbar'
 import Home from './Pages/Home'
@@ -7,8 +7,15 @@ import Video from './Component/Video'
 import Profile from './Pages/Profile'
 import VideoUpload from './Pages/VideoUpload'
 import LoginSignup from './Pages/LoginSignup'
+import axios from 'axios'
 function App() {
-
+  //  useEffect(()=>{
+  //      axios.get('http://localhost:8000/api/allVideo').then(res=>{
+  //       console.log(res);
+  //      }).catch(err=>{
+  //       console.log(err);
+  //      })
+  //  },[])
 
   return (
     <>

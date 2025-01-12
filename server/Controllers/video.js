@@ -16,7 +16,7 @@ const uploadVideo = async(req,res)=>{
 
 const getAllVideo = async(req,res)=>{
 try {
-  const videos = await Video.find().populate('user','userName');
+  const videos = await Video.find().populate('user','userName createdAt');
 
   return res
   .status(200)
