@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '../App.css';
 import {FaUser , FaLock ,FaEnvelope ,FaGoogle ,FaFacebook,FaGithub,FaLinkedin} from "react-icons/fa"
+import axios from "axios"
 
+import {toast , ToastContainer} from "react-toastify"
 const LoginSignup = () => {
   const [isActive, setIsActive] = useState(false);
 
@@ -14,9 +16,13 @@ const LoginSignup = () => {
   };
   
   const [loginField , setLoginField] = useState({"userName":"","password":""}); //these field and handleOnChangeInput parameter should be same
+
   const [registerField , setRegisterField] = useState({"userName":"","email":"","password":""});
+
   console.log(loginField);
   console.log(registerField);
+
+
   const handleOnChangeInput = (event,name)=>{
           setLoginField({
             ...loginField,[name]:event.target.value
@@ -25,6 +31,20 @@ const LoginSignup = () => {
             ...registerField,[name]:event.target.value
           })
   }
+
+  const handleRegister = async(event) =>{
+      event.preventDefault();
+      axios.post('http://localhost:8000/auth/signUp',registerField)
+      .then((response)=>{
+        console.log(response);
+        toast.success('User Registered successfully!')
+      })
+      .catch(error=>{
+        console.log(error);
+        toast.error('Registration failed!');
+      })
+  }
+
   return (
     <div className="big-container">
        
@@ -59,7 +79,7 @@ const LoginSignup = () => {
 
       {/* Register Form */}
       <div className="form-box register">
-        <form>
+        <form onSubmit={handleRegister}>
           <h1>Register</h1>
           <div className="input-box">
             <input type="text" placeholder="Username" value={registerField.userName} onChange={(e)=>handleOnChangeInput(e,"userName")} required />
@@ -73,7 +93,7 @@ const LoginSignup = () => {
             <input type="password" placeholder="Password" value={registerField.password} onChange={(e)=>handleOnChangeInput(e,"password")} required />
             <FaLock className="bx bxs-lock-alt"></FaLock>
           </div>
-          <button type="submit" className="btn  bg-gradient-to-r from-[#005c97] to-[#00d4ff]">
+          <button type="submit"  className="btn  bg-gradient-to-r from-[#005c97] to-[#00d4ff]">
             Register
           </button>
           <p>Or Register with social platforms</p>
@@ -104,6 +124,8 @@ const LoginSignup = () => {
         </div>
       </div>
     </div>
+     
+     <ToastContainer/>
     </div>
   );
 };
