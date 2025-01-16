@@ -29,11 +29,11 @@ try {
 const getVideoById = async(req,res)=>{
   try {
     let {id} = req.params;
-    console.log(id);
-    const video = await Video.findById(id).populate('user','userName');
+    // console.log(id);
+    const video = await Video.findById(id).populate('user','userName fullName createdAt');
     return res
     .status(200)
-    .json({success:"true" , "videos" : video , message:"Video By id fetched"})
+    .json({success:"true" , "video" : video , message:"Video By id fetched"})
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error,Error in Fetching the video' });
   }
@@ -42,7 +42,7 @@ const getVideoById = async(req,res)=>{
 const getAllVideoByUserId =async(req,res)=>{
 try {
     let {userId} = req.params;
-    const video = await Video.find({user:userId}).populate('user','userName');;
+    const video = await Video.find({user:userId}).populate('user','userName  createdAt fullName');;
     return res
     .status(200)
     .json({success:"true" , "videos" : video , message:"Video By Userid fetched"})

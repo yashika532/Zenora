@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../Component/Sidebar';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Profile = () => {
+  const calculateDaysAgo = (createdDate) => {
+    const createdAt = new Date(createdDate);
+    const now = new Date();
+    const differenceInTime = now - createdAt;
+    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+    return differenceInDays === 0 ? 'Today' : `${differenceInDays} days ago`;
+  };
+  const { id } = useParams();
+
+  const [profile, setProfile] = useState([]);
+  const [videoData,setVideoData] = useState([]);
+  const fetchProfileData = async () => {
+    axios.get(`http://localhost:8000/api/${id}/channel`)
+      .then((response) => {
+        // console.log(response.data);
+        setProfile(response.data);
+        setVideoData(response.data.videos);
+        // console.log(response.data.videos);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
   return (
     <div className="profile bg-black flex box-border p-4 w-full text-white min-h-screen">
       {/* Sidebar */}
@@ -11,7 +40,7 @@ const Profile = () => {
       {/* Main content */}
       <div className="profile-page flex-1 ml-2 p-4">
         {/* Profile Header */}
-        <div className="profile-top-section flex items-center mb-12 p-6  rounded-lg bg-gradient-to-r from-[#005c97] to-[#00d4ff] shadow-lg transition-transform duration-500 hover:scale-105">
+        <div className="profile-top-section flex items-center mb-12 p-6 rounded-lg bg-gradient-to-r from-[#005c97] to-[#00d4ff] shadow-lg transition-transform duration-500 hover:scale-105">
           <div className="profile-avatar-img mr-6">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s"
@@ -20,15 +49,19 @@ const Profile = () => {
             />
           </div>
           <div className="profile-About ml-8 text-white">
-            <h1 className="text-4xl font-extrabold tracking-wide mb-2">Yashika Jain</h1>
-            <p className="text-lg italic">Your Channel Description</p>
+            <h1 className="text-4xl font-extrabold tracking-wide mb-2">
+              {profile?.videos?.[0]?.user?.fullName || 'UserName'}
+            </h1>
+            <p className="text-lg italic">
+              {profile?.videos?.[0]?.user?.userName || 'No username added'}
+            </p>
             <div className="profile-stats mt-4 flex space-x-10">
               <div className="subscribers">
                 <p className="text-2xl font-bold">1M</p>
                 <p className="text-sm">Subscribers</p>
               </div>
               <div className="videos">
-                <p className="text-2xl font-bold">200</p>
+                <p className="text-2xl font-bold">{profile?.videos?.length}</p>
                 <p className="text-sm">Videos</p>
               </div>
             </div>
@@ -44,61 +77,37 @@ const Profile = () => {
 
           {/* Video Thumbnails Grid */}
           <div className="video-thumbnails grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {/* Video Template with Glow Border */}
-            <Link
-              to={'/watch/1'}
-              className="youtube-video relative bg-gray-900 p-4 rounded-lg shadow-lg border-2 border-transparent transition-all duration-300 hover:border-gradient-to-r from-[#005c97] to-[#00d4ff] hover:shadow-[0_0_15px_5px_rgba(0,212,255,0.6)] hover:scale-105"
-            >
-              {/* Thumbnail */}
-              <div className="relative box-border h-48 mb-4 overflow-hidden rounded-md">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1710119487743-48959c984d45?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Beautiful Landscape Thumbnail"
-                  className="w-full h-full object-cover"
-                />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-75"></div>
-                {/* Timing label */}
-                <div className="absolute bottom-2 right-2 bg-gradient-to-r from-[#005c97] to-[#00d4ff] text-white text-xs px-2 py-1 rounded shadow-md">
+            {videoData?.map((video, index) => (
+              <Link
+                key={index}
+                to={`/watch/${video?._id}`}
+                className="youtube-video relative bg-gray-900 p-4 rounded-lg shadow-lg border-2 border-transparent transition-all duration-300 hover:border-gradient-to-r from-[#005c97] to-[#00d4ff] hover:shadow-[0_0_15px_5px_rgba(0,212,255,0.6)] hover:scale-105"
+              >
+                {/* Thumbnail */}
+                <div className="relative box-border h-48 mb-4 overflow-hidden rounded-md">
+                  <img
+                    src={video?.thumbnail || 'default-thumbnail.jpg'}
+                    alt={video?.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-75"></div>
+                  {/* Timing label */}
+                  <div className="absolute bottom-2 right-2 bg-gradient-to-r from-[#005c97] to-[#00d4ff] text-white text-xs px-2 py-1 rounded shadow-md">
                   28:05
+                  </div>
                 </div>
-              </div>
 
-              {/* Video Metadata */}
-              <div>
-                <h3 className="font-semibold text-lg truncate">Sample Video Title</h3>
-                <p className="text-gray-400 text-sm">Channel Name</p>
-                <p className="text-gray-400 text-sm">1.2M views • 2 days ago</p>
-              </div>
-            </Link>
-
-            {/* Another Video with Glow Border */}
-            <Link
-              to={'/watch/2'}
-              className="youtube-video relative bg-gray-900 p-4 rounded-lg shadow-lg border-2 border-transparent transition-all duration-300 hover:border-gradient-to-r from-[#005c97] to-[#00d4ff] hover:shadow-[0_0_15px_5px_rgba(0,212,255,0.6)] hover:scale-105"
-            >
-              {/* Thumbnail */}
-              <div className="relative box-border h-48 mb-4 overflow-hidden rounded-md">
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1673306778968-5aab577a7365?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmFja2dyb3VuZCUyMGltYWdlfGVufDB8fDB8fHww"
-                  alt="Beautiful Landscape Thumbnail"
-                  className="w-full h-full object-cover"
-                />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-75"></div>
-                {/* Timing label */}
-                <div className="absolute bottom-2 right-2 bg-gradient-to-r from-[#005c97] to-[#00d4ff] text-white text-xs px-2 py-1 rounded shadow-md">
-                  15:30
+                {/* Video Metadata */}
+                <div>
+                  <h3 className="font-semibold text-lg">{video?.title}</h3>
+                  <div className='flex flex-row justify-around'>
+                  <p className="text-gray-400 text-sm mr-32 mt-1">{video?.user?.userName}</p>
+                  <p className="text-gray-400 text-sm mt-1"> {calculateDaysAgo(video?.user?.createdAt)}</p>
+                  </div>
                 </div>
-              </div>
-
-              {/* Video Metadata */}
-              <div>
-                <h3 className="font-semibold text-lg truncate">Another Video Title</h3>
-                <p className="text-gray-400 text-sm">Channel Name</p>
-                <p className="text-gray-400 text-sm">800K views • 1 week ago</p>
-              </div>
-            </Link>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
