@@ -1,5 +1,5 @@
 import { User } from '../Models/user.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 const cookieOptions  = {
@@ -10,7 +10,7 @@ const cookieOptions  = {
 
 const signUpUser = async (req, res) => {
   try {
-    const { fullName,userName, email, password } = req.body;
+    const { userName, email, password } = req.body;
 
     // Input validation
     if (!userName || !email || !password) {
@@ -27,7 +27,7 @@ const signUpUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const user = new User({fullName, userName, email, password: hashedPassword });
+    const user = new User({userName, email, password: hashedPassword });
     await user.save();
 
     // Respond to the client
@@ -38,7 +38,7 @@ const signUpUser = async (req, res) => {
     });
 
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -71,7 +71,8 @@ const loginUser = async (req, res) => {
     return res.status(200).json({
       message: 'Logged in successfully',
       success: "true",
-      token
+      token,
+      user
     });
 
   } catch (error) {
