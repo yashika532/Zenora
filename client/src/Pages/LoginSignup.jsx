@@ -54,7 +54,7 @@ const LoginSignup = () => {
   const handleLogin = async(event) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:8000/auth/login', loginField)
+      await axios.post('http://localhost:8000/auth/login', loginField,{withCredentials:true})
       .then((response=>{
         console.log(response);
         localStorage.setItem("token" ,response.data.token);

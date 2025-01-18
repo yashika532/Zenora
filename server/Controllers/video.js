@@ -7,7 +7,7 @@ const uploadVideo = async(req,res)=>{
     const videoUpload = new Video({user:req.user._id,title,description,videoLink,videoType,thumbnail});
     await videoUpload.save();
 
-    return res.status(200).json({success:"ture",videoUpload,message:"Video Uploaded Successfully"});
+    return res.status(200).json({success:"true",videoUpload,message:"Video Uploaded Successfully"});
 
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error,Error in video upload' });

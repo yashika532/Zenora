@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { FaSearch, FaBell, FaMicrophone } from 'react-icons/fa';
 import { MdVideoCall, MdOutlineCamera } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Navbar() {
   const [userPic, setUserPic] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s");
@@ -19,11 +21,12 @@ function Navbar() {
     try {
       await axios.post('http://localhost:8000/auth/logout', {}, { withCredentials: true });
       localStorage.clear();
-
+      toast.success('User Logged out!');
       setIsLoggedIn(false);
       setTimeout(() => {
         window.location.reload();
       });
+     
     } catch (error) {
       console.error(error);
     }
@@ -87,6 +90,7 @@ function Navbar() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
