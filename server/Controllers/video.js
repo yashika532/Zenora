@@ -52,4 +52,77 @@ try {
 }
 ;}
 
-export {uploadVideo,getAllVideo,getVideoById,getAllVideoByUserId};
+const handlelike = async(req,res)=>{
+  
+  try {
+    const {id} = req.params;
+    const video = await Video.findById(id);
+    if(!video){
+      return res.status(404).json({ error: "Video not found" });
+    }
+    video.like+=1;
+    await video.save();
+    return res.status(200).json({ success: "true", message: "Liked", video: video });
+  }
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error, Error in liking the video' });
+  }
+}
+
+const handleDislike = async(req,res)=>{
+  try {
+    const {id} = req.params;
+    const video = await Video.findById(id);
+    if(!video){
+      return res.status(404).json({ error: "Video not found" });
+    }
+    
+    video.dislike-=1;
+    if(video.dislike <=0)video.dislike = 0;
+    await video.save();
+    return res.status(200).json({ success: "true", message: "Video DisLiked", video: video });
+  }
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error, Error in Disliking the video' });
+  }
+}
+
+const getLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    
+    if (!video) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+ 
+    return res
+      .status(200)
+      .json({ success: "true", likes: video.like, message: "Likes fetched" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error, Error in Fetching likes' });
+  }
+}
+
+const getDislike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    
+    if (!video) {
+      return res.status(404).json({ error: "Video not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ success: "true", dislikes: video.dislike, message: "Dislikes fetched" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error, Error in Fetching dislikes' });
+  }
+}
+
+export {uploadVideo,getAllVideo,getVideoById,getAllVideoByUserId,handlelike,handleDislike,getLike,getDislike};

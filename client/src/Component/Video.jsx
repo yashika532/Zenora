@@ -16,11 +16,12 @@ const Video = () => {
 
   const fetchVideoById = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/videoById/${id}`);
+      const response = await axios.get(`http://localhost:8000/api/videoById/${id}`, { withCredentials: true });
       setData(response?.data?.video);
       setVideoURL(response?.data?.video?.videoLink);
     } catch (error) {
       console.error("Error fetching video:", error);
+      toast.error("Error fetching video data.");
     }
   };
 
@@ -30,16 +31,54 @@ const Video = () => {
       setComments(response?.data?.comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
+      toast.error("Error fetching comments.");
+    }
+  };
+
+  const getLikes = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/${id}/getLike`);
+      setLikes(response.data.likes);
+    } catch (error) {
+      console.error("Error fetching likes:", error);
+    }
+  };
+
+  const getDislikes = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/${id}/getDislike`);
+      setDislikes(response.data.dislikes);
+    } catch (error) {
+      console.error("Error fetching dislikes:", error);
     }
   };
 
   useEffect(() => {
     fetchVideoById();
     getCommentByVideoId();
+    getLikes();
+    getDislikes();
   }, [id]);
 
-  const handleLike = () => setLikes(likes + 1);
-  const handleDislike = () => setDislikes(dislikes + 1);
+  const handleLike = async () => {
+    try {
+      await axios.post(`http://localhost:8000/api/${id}/like`);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error liking video:", error);
+      toast.error("Failed to like the video. Please try again.");
+    }
+  };
+
+  const handleDislike = async () => {
+    try {
+      await axios.post(`http://localhost:8000/api/${id}/dislike`);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error disliking video:", error);
+      toast.error("Failed to dislike the video. Please try again.");
+    }
+  };
 
   const handleCommentSubmit = async () => {
     if (!commentInput.trim()) {
@@ -48,26 +87,20 @@ const Video = () => {
     }
 
     const newComment = {
-      user: { userName: "User" },  // This should be replaced with actual user data
+      user: { userName: "User" },
       message: commentInput,
       createdAt: new Date().toISOString(),
     };
 
-    // Optimistically update the UI
     setComments([...comments, newComment]);
     setCommentInput("");
 
     try {
-      await axios.post(
-        `http://localhost:8000/commentApi/comment`,
-        { message: commentInput, video: id },
-        { withCredentials: true }
-      );
+      await axios.post(`http://localhost:8000/commentApi/comment`, { message: commentInput, video: id }, { withCredentials: true });
     } catch (error) {
       toast.error("Please Login First");
-      // Rollback optimistic update on failure
       setComments(comments.filter(comment => comment !== newComment));
-      setCommentInput(commentInput);  // Restore the input value
+      setCommentInput(commentInput);
     }
   };
 
@@ -81,13 +114,7 @@ const Video = () => {
     <div className="bg-black text-white min-h-screen">
       <div className="flex flex-col lg:flex-row p-8 gap-10">
         <div className="lg:w-3/4">
-          {data && <video
-            src={videoUrl}
-            controls
-            autoPlay
-            muted
-            className="w-full h-[600px] rounded-lg"
-          ></video>}
+          {data && <video src={videoUrl} controls autoPlay muted className="w-full h-[600px] rounded-lg"></video>}
           <div className="mt-4">
             <h2 className="text-xl font-semibold">{data?.title}</h2>
             <div className="flex items-center justify-between mt-2">
@@ -113,7 +140,6 @@ const Video = () => {
                 </div>
               </div>
             </div>
-
             <p className="mt-4 text-gray-400">{data?.description}</p>
           </div>
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../Component/Sidebar';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { FaUserEdit } from "react-icons/fa";
 
 const Profile = () => {
   const calculateDaysAgo = (createdDate) => {
@@ -11,17 +12,17 @@ const Profile = () => {
     const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays === 0 ? 'Today' : `${differenceInDays} days ago`;
   };
+  
   const { id } = useParams();
 
   const [profile, setProfile] = useState([]);
-  const [videoData,setVideoData] = useState([]);
+  const [videoData, setVideoData] = useState([]);
+
   const fetchProfileData = async () => {
     axios.get(`http://localhost:8000/api/${id}/channel`)
       .then((response) => {
-        // console.log(response.data);
         setProfile(response.data);
         setVideoData(response.data.videos);
-        // console.log(response.data.videos);
       })
       .catch(error => {
         console.log(error);
@@ -40,7 +41,7 @@ const Profile = () => {
       {/* Main content */}
       <div className="profile-page flex-1 ml-2 p-4">
         {/* Profile Header */}
-        <div className="profile-top-section flex items-center mb-12 p-6 rounded-lg bg-gradient-to-r from-[#005c97] to-[#00d4ff] shadow-lg transition-transform duration-500 hover:scale-105">
+        <div className="profile-top-section flex items-center mb-12 p-6 rounded-lg bg-gradient-to-r from-[#005c97] to-[#00d4ff] shadow-lg transition-transform duration-500 hover:scale-105 relative">
           <div className="profile-avatar-img mr-6">
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s"
@@ -66,6 +67,12 @@ const Profile = () => {
               </div>
             </div>
           </div>
+
+          {/* User Edit Icon */}
+          <FaUserEdit 
+            size={28} 
+            className="absolute bottom-4 right-4 cursor-pointer text-white"
+          />
         </div>
 
         {/* User's Videos Section */}
@@ -94,16 +101,16 @@ const Profile = () => {
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-75"></div>
                   {/* Timing label */}
                   <div className="absolute bottom-2 right-2 bg-gradient-to-r from-[#005c97] to-[#00d4ff] text-white text-xs px-2 py-1 rounded shadow-md">
-                  28:05
+                    28:05
                   </div>
                 </div>
 
                 {/* Video Metadata */}
                 <div>
                   <h3 className="font-semibold text-lg">{video?.title}</h3>
-                  <div className='flex flex-row justify-around'>
-                  <p className="text-gray-400 text-sm mr-32 mt-1">{video?.user?.userName}</p>
-                  <p className="text-gray-400 text-sm mt-1"> {calculateDaysAgo(video?.user?.createdAt)}</p>
+                  <div className="flex flex-row justify-around">
+                    <p className="text-gray-400 text-sm mr-32 mt-1">{video?.user?.userName}</p>
+                    <p className="text-gray-400 text-sm mt-1"> {calculateDaysAgo(video?.user?.createdAt)}</p>
                   </div>
                 </div>
               </Link>
