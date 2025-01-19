@@ -85,4 +85,38 @@ const logoutUser = async(req,res)=>{
   res.clearCookie('token',cookieOptions).json({message: 'Logged out successfully'})
 }
 
-export { signUpUser, loginUser ,logoutUser };
+
+const updateProfile = async (req, res) => {
+  try {
+    const { profilePic, fullName } = req.body;
+    const userId = req.params.id; // Assuming user ID is passed as a URL parameter
+
+    // Validate input
+    if (!fullName || !profilePic) {
+      return res.status(400).json({ error: 'Full name and profile picture are required.' });
+    }
+
+    // Update user profile
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { fullName, profilePic },
+      { new: true, runValidators: true } // Return the updated document and run validations
+    );
+
+    // Check if the user was found and updated
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+    updatedUser.save();
+    return res.status(200).json({
+      success: true,
+      update: updatedUser,
+      message: 'Profile updated successfully',
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating profile' });
+  }
+};
+
+export { signUpUser, loginUser ,logoutUser,updateProfile};
