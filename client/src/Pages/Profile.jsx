@@ -121,7 +121,7 @@ const Profile = () => {
         </div>
 
         {isEditModalOpen && (
-          <div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
             <div className="bg-gradient-to-r from-[#005c97] to-[#00d4ff] p-6 rounded-lg text-white w-128 h-128 shadow-lg">
               <div className="flex justify-center mb-4">
                 {inputField.profilePic ? (

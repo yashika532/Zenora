@@ -17,6 +17,7 @@ const HomePage = () => {
   useEffect(() => {
     axios.get('http://localhost:8000/api/allVideo')
       .then(res => {
+        console.log(res.data.videos);
         setData(res.data.videos);
       })
       .catch(err => {
@@ -49,7 +50,7 @@ const HomePage = () => {
             {/* Profile and Video Metadata */}
             <div className="flex items-center space-x-4">
               <img 
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s" 
+                src= {item?.user?.profilePic || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s"}
                 alt="Profile" 
                 className="w-14 h-14 rounded-full object-cover border-2 border-white"
               />

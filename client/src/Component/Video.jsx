@@ -120,7 +120,7 @@ const Video = () => {
             <div className="flex items-center justify-between mt-2">
               <div className="flex items-center gap-4">
                 <Link to={`/user/${data?.user?._id}`} className="w-12 h-12 rounded-full overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1462536943532-57a629f6cc60?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3" alt="Profile" className="w-full h-full object-cover" />
+                  <img src={data?.user?.profilePic || "https://images.unsplash.com/photo-1462536943532-57a629f6cc60?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"} alt="Profile" className="w-full h-full object-cover" />
                 </Link>
                 <div>
                   <h3 className="font-medium">{data?.user?.userName}</h3>

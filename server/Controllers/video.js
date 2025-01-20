@@ -16,7 +16,7 @@ const uploadVideo = async(req,res)=>{
 
 const getAllVideo = async(req,res)=>{
 try {
-  const videos = await Video.find().populate('user','userName createdAt');
+  const videos = await Video.find().populate('user','userName createdAt profilePic');
 
   return res
   .status(200)
@@ -78,8 +78,7 @@ const handleDislike = async(req,res)=>{
       return res.status(404).json({ error: "Video not found" });
     }
     
-    video.dislike-=1;
-    if(video.dislike <=0)video.dislike = 0;
+    video.dislike+=1;
     await video.save();
     return res.status(200).json({ success: "true", message: "Video DisLiked", video: video });
   }
