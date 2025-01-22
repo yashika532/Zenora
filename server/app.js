@@ -20,5 +20,7 @@ import videoRoutes from './Routes/video.js';
 app.use('/api', videoRoutes);
 import commentRoutes from './Routes/comment.js';
 app.use('/commentApi', commentRoutes);
+import subscribeRoutes from './Routes/subscribe.js'
+app.use('/api/subscription' ,subscribeRoutes);
 
 export { app };

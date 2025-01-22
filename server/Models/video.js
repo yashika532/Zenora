@@ -31,6 +31,10 @@ const videoSchema = new mongoose.Schema({
     dislike:{
         type:Number,
         default:0
+    },
+    subscriberCount:{
+        type:Number,
+        default:0
     }
 },{timestamps:true})
 

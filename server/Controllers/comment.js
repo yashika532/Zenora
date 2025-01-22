@@ -4,6 +4,7 @@ const addComment = async(req,res)=>{
 try {
   // console.log(req.user);
   let {video,message} = req.body;
+  console.log(video,message)
   const comment = new Comment({user:req.user._id,video,message});
   await comment.save();
 
