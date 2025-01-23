@@ -9,5 +9,5 @@ const router = Router();
 
 router.route('/subscribe').post(auth,addSubscription);
 router.delete('/unsubscribe', auth, removeSubscription);
-router.get('/subscriber-count/:videoId', getSubscriberCount);
+router.get('/subscriber-count/:channelId', getSubscriberCount);
 export default router;

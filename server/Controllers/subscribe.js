@@ -1,85 +1,106 @@
 import { Subscribe } from "../Models/subscribe.js";
-import { Video } from "../Models/video.js";
+import { User } from "../Models/user.js";
 
-const addSubscription = async(req,res) => {
-try {
-      let {video} = req.body;
-     
+// Add a subscription
+const addSubscription = async (req, res) => {
+  try {
+    const { channelId } = req.body; 
 
-   const existSubscription = await Subscribe.findOne({user:req.user._id,video});
-   
-  //  console.log(existSubscription);
+    if (!channelId) {
+      return res.status(400).json({ error: "Channel ID is required" });
+    }
 
-   if(existSubscription){
-    return res.status(400).json({error:'Already Subscribed'});
-   }
-   const newSubscription = new Subscribe({user:req.user._id,video});
+    // Check if subscription already exists
+    const existSubscription = await Subscribe.findOne({
+      subscriber: req.user._id,
+      channel: channelId,
+    });
 
+    if (existSubscription) {
+      return res.status(200).json({ message: "Already subscribed to this channel" });
+    }
 
-   await newSubscription.save();
+    // Create a new subscription
+    const newSubscription = new Subscribe({
+      subscriber: req.user._id,
+      channel: channelId,
+    });
 
-    //  Increment the subscriber count in the video
-    await Video.findByIdAndUpdate(video, { $inc: { subscriberCount: 1 } });
-    // console.log(video);
-    return res.status(200).json({ success: "true",newSubscription, message: "Subscribed successfully" });
-  } 
-catch (error) {
+    await newSubscription.save();
+
+    // Increment the subscriber count for the channel
+    await User.findByIdAndUpdate(channelId, { $inc: { subscriberCount: 1 } });
+
+    return res.status(200).json({
+      success: true,
+      newSubscription,
+      message: "Subscribed successfully",
+    });
+  } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error, Error in subscribing' });
-}
+    return res.status(500).json({
+      error: "Internal Server Error, Error in subscribing",
+    });
+  }
 };
 
 // Remove a subscription
 const removeSubscription = async (req, res) => {
   try {
-    const { videoId } = req.body;
-    const userId = req.user._id;
+    const { channelId } = req.body; 
 
+    if (!channelId) {
+      return res.status(400).json({ error: "Channel ID is required" });
+    }
+    
+    
     // Find and delete the subscription
-    const subscription = await Subscribe.findOneAndDelete({ user: userId, video: videoId });
+    const subscription = await Subscribe.findOneAndDelete({
+      subscriber: req.user._id,
+      channel: channelId,
+    });
+
     if (!subscription) {
-      return res.status(404).json({ error: 'Subscription not found' });
+      return res.status(404).json({ error: "Subscription not found" });
     }
 
-    // Decrement the subscriber count in the video
-    await Video.findByIdAndUpdate(
-      videoId,
-      {
-          $inc: {
-              subscriberCount: -1,
-          },
-      },
-      { new: true } // Returns the updated document
-  ).then((updatedVideo) => {
-      if (updatedVideo.subscriberCount < 0) {
-          updatedVideo.subscriberCount = 0;
-          updatedVideo.save();
-      }
-  });
+    // Decrement the subscriber count for the channel
+    await User.findByIdAndUpdate(channelId, { $inc: { subscriberCount: -1 } });
 
-    return res.status(200).json({ success: "true", message: "Unsubscribed successfully" });
+    return res.status(200).json({
+      success: true,
+      message: "Unsubscribed successfully",
+    });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error, Error in unsubscribing' });
+    return res.status(500).json({
+      error: "Internal Server Error, Error in unsubscribing",
+    });
   }
 };
 
+// Get subscriber count for a channel
 const getSubscriberCount = async (req, res) => {
   try {
-    const { videoId } = req.params;
+    const { channelId } = req.params; // The user whose subscriber count is being fetched
 
-    const video = await Video.findById(videoId);
-    if (!video) {
-      return res.status(404).json({ error: 'Video not found' });
+    const channel = await User.findById(channelId);
+
+    if (!channel) {
+      return res.status(404).json({ error: "Channel not found" });
     }
 
-    return res.status(200).json({ success: "true", subscriberCount: video.subscriberCount, message: "Subscriber count fetched" });
+    return res.status(200).json({
+      success: true,
+      subscriberCount: channel.subscriberCount || 0,
+      message: "Subscriber count fetched successfully",
+    });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error, Error in fetching subscriber count' });
+    return res.status(500).json({
+      error: "Internal Server Error, Error in fetching subscriber count",
+    });
   }
 };
 
-
-
-export {addSubscription,removeSubscription,getSubscriberCount}
+export { addSubscription, removeSubscription, getSubscriberCount };

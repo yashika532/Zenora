@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     profilePic:{
         type:String,
         // required:true,
+    },
+    subscriberCount:{
+        type:Number,
+        default:0
     }
 },{timestamps:true})
 

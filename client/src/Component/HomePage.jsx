@@ -17,7 +17,7 @@ const HomePage = () => {
   useEffect(() => {
     axios.get('http://localhost:8000/api/allVideo')
       .then(res => {
-        console.log(res.data.videos);
+        // console.log(res.data.videos);
         setData(res.data.videos);
       })
       .catch(err => {
