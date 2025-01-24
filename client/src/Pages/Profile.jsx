@@ -32,6 +32,7 @@ const Profile = () => {
   const fetchProfileData = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/api/${id}/channel`);
+      console.log(response)
       setProfile(response.data);
       setVideoData(response.data.videos || []);
       const user = response.data.videos?.[0]?.user || {};
@@ -104,7 +105,7 @@ const Profile = () => {
             </p>
             <div className="profile-stats mt-4 flex space-x-10">
               <div className="subscribers">
-                <p className="text-2xl font-bold">1M</p>
+                <p className="text-2xl font-bold">{profile?.videos?.[0]?.user?.subscriberCount}</p>
                 <p className="text-sm">Subscribers</p>
               </div>
               <div className="videos">

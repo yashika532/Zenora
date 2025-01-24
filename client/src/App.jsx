@@ -8,6 +8,7 @@ import Profile from './Pages/Profile'
 import VideoUpload from './Pages/VideoUpload'
 import LoginSignup from './Pages/LoginSignup'
 import axios from 'axios'
+import Note from './Component/Note'
 function App() {
   //  useEffect(()=>{
   //      axios.get('http://localhost:8000/api/allVideo').then(res=>{
@@ -26,6 +27,7 @@ function App() {
       <Route path = "/user/:id" element = {<Profile/>}/>
       <Route path = "/:id/upload" element = {<VideoUpload/>}/>
       <Route path = "/login" element = {<LoginSignup/>}/>
+      <Route path = "/notes" element = {<Note/>}/>
      </Routes>
     </>
   )

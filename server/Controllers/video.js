@@ -42,7 +42,7 @@ const getVideoById = async(req,res)=>{
 const getAllVideoByUserId =async(req,res)=>{
 try {
     let {userId} = req.params;
-    const video = await Video.find({user:userId}).populate('user','userName  createdAt fullName profilePic');;
+    const video = await Video.find({user:userId}).populate('user','userName  createdAt fullName profilePic subscriberCount');;
     return res
     .status(200)
     .json({success:"true" , "videos" : video , message:"Video By Userid fetched"})

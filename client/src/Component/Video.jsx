@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown} from "react-icons/fa";
+import {FaNoteSticky} from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Note from "./Note.jsx";
 const Video = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -14,7 +15,12 @@ const Video = () => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
   const [subscribe, setSubscribe] = useState(false);
-  let [channel,setChannel] = useState(null);
+  let [channel, setChannel] = useState(null);
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+
+  const toggleNotes = () => {
+    setIsNotesOpen(!isNotesOpen);
+  };
   const fetchVideoById = async () => {
     try {
       const response = await axios.get(
@@ -23,6 +29,7 @@ const Video = () => {
       );
       setChannel(response?.data?.video?.user?._id);
       // console.log(channel);
+      // setSubscribe(response?.data?.video?.user?.isSubscribed);
       setData(response?.data?.video);
       setVideoURL(response?.data?.video?.videoLink);
     } catch (error) {
@@ -75,7 +82,7 @@ const Video = () => {
   const handleLike = async () => {
     try {
       await axios.post(`http://localhost:8000/api/${id}/like`);
-      window.location.reload();
+      setLikes((prevLikes) => prevLikes + 1);
     } catch (error) {
       console.error("Error liking video:", error);
       toast.error("Failed to like the video. Please try again.");
@@ -83,7 +90,6 @@ const Video = () => {
   };
 
   const handleSubscribe = async () => {
-    
     try {
       // console.log(channel);
       const res = await axios.post(
@@ -107,26 +113,24 @@ const Video = () => {
       const response = await axios.delete(
         `http://localhost:8000/api/subscription/unsubscribe`,
         {
-          data: { channelId: channel }, 
+          data: { channelId: channel },
           withCredentials: true,
         }
       );
 
       //  console.log(response);
-       setSubscribe(false); 
-       toast.success("Successfully Unsubscribed!");
-     
+      setSubscribe(false);
+      toast.success("Successfully Unsubscribed!");
     } catch (error) {
       console.error("Error Unsubscribing:", error);
       toast.error("An error occurred while unsubscribing.");
     }
   };
-  
 
   const handleDislike = async () => {
     try {
       await axios.post(`http://localhost:8000/api/${id}/dislike`);
-      window.location.reload();
+      setDislikes((prevLikes) => prevLikes + 1);
     } catch (error) {
       console.error("Error disliking video:", error);
       toast.error("Failed to dislike the video. Please try again.");
@@ -168,7 +172,7 @@ const Video = () => {
       description: "Cosmos Adventure",
       views: "10M views",
       time: "2 days ago",
-      thumbnail: "https://via.placeholder.com/120",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s",
     },
     {
       id: 2,
@@ -176,7 +180,7 @@ const Video = () => {
       description: "Galactic Views",
       views: "5M views",
       time: "1 week ago",
-      thumbnail: "https://via.placeholder.com/120",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s",
     },
     {
       id: 3,
@@ -184,7 +188,7 @@ const Video = () => {
       description: "Astronomical Wonders",
       views: "3M views",
       time: "5 days ago",
-      thumbnail: "https://via.placeholder.com/120",
+      thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByVjBTwRINSOePwmji3EYb_8pNugi8IYQsw&s",
     },
   ];
 
@@ -201,6 +205,10 @@ const Video = () => {
               className="w-full h-[600px] rounded-lg"
             ></video>
           )}
+          <FaNoteSticky
+            className="absolute top-32 right-[29%] text-xl cursor-pointer text-gray-300 hover:text-white z-50"
+            onClick={toggleNotes}
+          />
           <div className="mt-4">
             <h2 className="text-xl font-semibold">{data?.title}</h2>
             <div className="flex items-center justify-between mt-2">
@@ -238,7 +246,7 @@ const Video = () => {
                   >
                     Unsubscribe
                   </button>
-                 )} 
+                )}
               </div>
               <div className="flex gap-4">
                 <div className="flex items-center gap-1">
@@ -282,7 +290,9 @@ const Video = () => {
             <div className="space-y-4">
               {comments?.map((comment, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg">
-                  <p className="text-sm font-medium">{comment.user?.userName}</p>
+                  <p className="text-sm font-medium">
+                    {comment.user?.userName}
+                  </p>
                   <p className="mt-2">{comment.message}</p>
                 </div>
               ))}
@@ -290,22 +300,38 @@ const Video = () => {
           </div>
         </div>
         <div className="lg:w-1/4">
-          <h3 className="text-lg font-semibold mb-4">Suggestions</h3>
-          <div>
-            {suggestions.map((video) => (
-              <div key={video.id} className="flex items-center gap-4 mb-4">
+          {isNotesOpen ? (
+            <Note/>
+          ) : (
+            <>
+              <h3 className="text-lg font-semibold mb-4">Up Next</h3>
+              <div className="flex flex-col gap-4">
+              {suggestions.map((video) => (
+              <div
+                key={video.id}
+                className="flex items-start bg-gray-800 p-3 rounded-lg hover:bg-gray-700 transition"
+              >
                 <img
                   src={video.thumbnail}
                   alt={video.title}
-                  className="w-20 h-20 rounded-lg object-cover"
+                  className="w-32 h-20 rounded-md object-cover"
                 />
-                <div>
-                  <h4 className="font-medium text-sm">{video.title}</h4>
-                  <p className="text-xs text-gray-400">{video.views}</p>
+                <div className="ml-3">
+                  <h4 className="text-white font-medium leading-snug">
+                    {video.title}
+                  </h4>
+                  <p className="text-gray-400 text-sm mt-1">
+                    {video.description}
+                  </p>
+                  <span className="text-gray-500 text-xs">
+                    {video.views} • {video.time}
+                  </span>
                 </div>
               </div>
             ))}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       <ToastContainer />
