@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div className='flex w-full box-border bg-black'>
-      <Sidebar category={category} setCategory={setCategory} />
+      <Sidebar category={category} setCategory={setCategory}/>
       <HomePage category={category} />
     </div>
   );
