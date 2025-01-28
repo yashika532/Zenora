@@ -9,9 +9,11 @@ import {
   FaClock,
   FaThumbsUp,
   FaLayerGroup,
+  FaGamepad,
+  FaMusic,
 } from "react-icons/fa";
 
-const Sidebar = () => {
+const Sidebar = ({ category, setCategory }) => {
   return (
     <div className="h-screen p-3 shadow-lg group">
       {/* Sidebar container */}
@@ -22,45 +24,47 @@ const Sidebar = () => {
           <SidebarItem
             icon={<FaHome />}
             label="Home"
+            isActive={category === 0}
+            onClick={() => setCategory(0)}
           />
-          {/* Shorts Option */}
+          {/* Entertainment Option */}
           <SidebarItem
             icon={<FaVideo />}
-            label="Shorts"
+            label="Entertainment"
+            isActive={category === 24}
+            onClick={() => setCategory(24)}
           />
-          {/* Subscription Option */}
+          {/* Technology Option */}
           <SidebarItem
             icon={<FaWifi />}
-            label="Subscription"
+            label="Technology"
+            isActive={category === 28}
+            onClick={() => setCategory(28)}
+          />
+          {/* Gaming Option */}
+          <SidebarItem
+            icon={<FaGamepad />}
+            label="Gaming"
+            isActive={category === 20}
+            onClick={() => setCategory(20)}
+          />
+          {/* Music Option */}
+          <SidebarItem
+            icon={<FaMusic />}
+            label="Music"
+            isActive={category === 10}
+            onClick={() => setCategory(10)}
           />
         </div>
         <hr className="border-gray-700 my-4 w-full" />
         {/* Mid Part */}
         <div className="w-full">
-          <SidebarItem
-            icon={<FaUserCircle />}
-            label="Your Channel"
-          />
-          <SidebarItem
-            icon={<FaHistory />}
-            label="History"
-          />
-          <SidebarItem
-            icon={<FaLayerGroup />}
-            label="Playlist"
-          />
-          <SidebarItem
-            icon={<FaPlayCircle />}
-            label="Your Videos"
-          />
-          <SidebarItem
-            icon={<FaClock />}
-            label="Watch Later"
-          />
-          <SidebarItem
-            icon={<FaThumbsUp />}
-            label="Liked Videos"
-          />
+          <SidebarItem icon={<FaUserCircle />} label="Your Channel" />
+          <SidebarItem icon={<FaHistory />} label="History" />
+          <SidebarItem icon={<FaLayerGroup />} label="Playlist" />
+          <SidebarItem icon={<FaPlayCircle />} label="Your Videos" />
+          <SidebarItem icon={<FaClock />} label="Watch Later" />
+          <SidebarItem icon={<FaThumbsUp />} label="Liked Videos" />
         </div>
         <hr className="border-gray-700 my-4 w-full" />
       </div>
@@ -69,10 +73,13 @@ const Sidebar = () => {
 };
 
 // SidebarItem Component
-const SidebarItem = ({ icon, label }) => {
+const SidebarItem = ({ icon, label, isActive, onClick }) => {
   return (
     <div
-      className="flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-gradient-to-r hover:from-[#1E73BE] hover:via-blue-400 hover:to-[#007bff]"
+      onClick={onClick}
+      className={`flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-gradient-to-r hover:from-[#1E73BE] hover:via-blue-400 hover:to-[#007bff] ${
+        isActive ? "border-b-2 border-gradient-to-r from-blue-400 to-blue-600" : ""
+      }`}
     >
       <div className="bg-gradient-to-r from-blue-400 to-[#6EC1E4] p-2 rounded-full">
         {icon}

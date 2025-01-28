@@ -1,14 +1,16 @@
-import React from 'react'
-import Sidebar from '../Component/Sidebar'
-import HomePage from '../Component/HomePage'
+import React, { useState } from 'react';
+import Sidebar from '../Component/Sidebar';
+import HomePage from '../Component/HomePage';
 
 const Home = () => {
-  return (
-    <div className='flex w-full box-border bg-black '>
-      <Sidebar/>
-      <HomePage/>
-    </div>
-  )
-}
+  const [category, setCategory] = useState(0);
 
-export default Home
+  return (
+    <div className='flex w-full box-border bg-black'>
+      <Sidebar category={category} setCategory={setCategory} />
+      <HomePage category={category} />
+    </div>
+  );
+};
+
+export default Home;

@@ -14,6 +14,10 @@ const subscribeSchema = new mongoose.Schema({
     subscribedAt: {
         type: Date,
         default: Date.now
+    },
+    isSubscribed: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

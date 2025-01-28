@@ -16,14 +16,13 @@ const addSubscription = async (req, res) => {
       channel: channelId,
     });
 
-    if (existSubscription) {
-      return res.status(200).json({ message: "Already subscribed to this channel" });
-    }
+    
 
     // Create a new subscription
     const newSubscription = new Subscribe({
       subscriber: req.user._id,
       channel: channelId,
+      isSubscribed:true
     });
 
     await newSubscription.save();
@@ -82,7 +81,7 @@ const removeSubscription = async (req, res) => {
 // Get subscriber count for a channel
 const getSubscriberCount = async (req, res) => {
   try {
-    const { channelId } = req.params; // The user whose subscriber count is being fetched
+    const { channelId } = req.params; 
 
     const channel = await User.findById(channelId);
 
@@ -103,4 +102,32 @@ const getSubscriberCount = async (req, res) => {
   }
 };
 
-export { addSubscription, removeSubscription, getSubscriberCount };
+// Check subscription status
+const getSubscriptionStatus = async (req, res) => {
+  try {
+    const { channelId } = req.params;
+
+    if (!channelId) {
+      return res.status(400).json({ error: "Channel ID is required" });
+    }
+
+    // Find subscription
+    const subscription = await Subscribe.findOne({
+      subscriber: req.user._id,
+      channel: channelId,
+    });
+
+    return res.status(200).json({
+      success: true,
+      isSubscribed: subscription ? true : false,
+      message: "Subscription status fetched successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: "Internal Server Error, Error in fetching subscription status",
+    });
+  }
+};
+
+export { addSubscription, removeSubscription, getSubscriberCount ,getSubscriptionStatus };

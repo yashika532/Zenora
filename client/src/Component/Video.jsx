@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Note from "./Note.jsx";
+
 const Video = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -16,11 +16,7 @@ const Video = () => {
   const [commentInput, setCommentInput] = useState("");
   const [subscribe, setSubscribe] = useState(false);
   let [channel, setChannel] = useState(null);
-  const [isNotesOpen, setIsNotesOpen] = useState(false);
-
-  const toggleNotes = () => {
-    setIsNotesOpen(!isNotesOpen);
-  };
+  
   const fetchVideoById = async () => {
     try {
       const response = await axios.get(
@@ -37,6 +33,25 @@ const Video = () => {
       toast.error("Error fetching video data.");
     }
   };
+  
+  useEffect(() => {
+    if (channel) {
+      getSubscriptionStatus(); // Fetch subscription status once channel is set
+    }
+  }, [channel]);
+  const getSubscriptionStatus = async()=>{
+    try {
+      console.log(channel)
+      const response = await axios.get(
+        `http://localhost:8000/api/subscription/status/${channel}`,
+        { withCredentials: true }
+      );
+      console.log(response);
+      setSubscribe(response?.data?.isSubcribed);
+    } catch (error) {
+      console.error("Error fetching video:", error);
+    }
+  }
 
   const getCommentByVideoId = async () => {
     try {
@@ -71,6 +86,8 @@ const Video = () => {
       console.error("Error fetching dislikes:", error);
     }
   };
+
+  
 
   useEffect(() => {
     fetchVideoById();
@@ -205,10 +222,7 @@ const Video = () => {
               className="w-full h-[600px] rounded-lg"
             ></video>
           )}
-          <FaNoteSticky
-            className="absolute top-32 right-[29%] text-xl cursor-pointer text-gray-300 hover:text-white z-50"
-            onClick={toggleNotes}
-          />
+          
           <div className="mt-4">
             <h2 className="text-xl font-semibold">{data?.title}</h2>
             <div className="flex items-center justify-between mt-2">
@@ -300,10 +314,6 @@ const Video = () => {
           </div>
         </div>
         <div className="lg:w-1/4">
-          {isNotesOpen ? (
-            <Note/>
-          ) : (
-            <>
               <h3 className="text-lg font-semibold mb-4">Up Next</h3>
               <div className="flex flex-col gap-4">
               {suggestions.map((video) => (
@@ -330,8 +340,6 @@ const Video = () => {
               </div>
             ))}
               </div>
-            </>
-          )}
         </div>
       </div>
       <ToastContainer />
