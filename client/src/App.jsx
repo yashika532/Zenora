@@ -7,7 +7,7 @@ import Video from './Component/Video';
 import Profile from './Pages/Profile';
 import VideoUpload from './Pages/VideoUpload';
 import LoginSignup from './Pages/LoginSignup';
-
+import TryVideo from './Component/TryVideo';
 
 function App() {
   return (
@@ -19,6 +19,8 @@ function App() {
         <Route path="/user/:id" element={<Profile />} />
         <Route path="/:id/upload" element={<VideoUpload />} />
         <Route path="/login" element={<LoginSignup />} />
+        <Route path = '/test' element = {<TryVideo/>}/>
+        
       </Routes>
     </>
   );

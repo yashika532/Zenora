@@ -18,7 +18,6 @@ const truncateText = (text, maxLength) => {
 };
 
 const VideoCard = ({ id, thumbnail, title, username, profilePic, time, createdAt }) => {
-  console.log(id)
   return (
     <Link
       to={`/watch/${id}`}
