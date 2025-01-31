@@ -205,10 +205,7 @@ const Video = () => {
               className="w-full h-[600px] rounded-lg"
             ></video>
           )}
-          <FaNoteSticky
-            className="absolute top-32 right-[29%] text-xl cursor-pointer text-gray-300 hover:text-white z-50"
-            onClick={toggleNotes}
-          />
+          
           <div className="mt-4">
             <h2 className="text-xl font-semibold">{data?.title}</h2>
             <div className="flex items-center justify-between mt-2">
